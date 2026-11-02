@@ -53,7 +53,7 @@ npm run build
 1. **Compress PDF Rasterization**: Browser-based PDF compression renders each page to an HTML5 Canvas via PDF.js and re-encodes it as a JPEG inside a rebuilt PDF. Selectable/searchable text, hyperlinks, bookmarks, and interactive forms are not preserved. Pure vector text PDFs may become larger when rasterized; the tool detects this honestly and advises keeping the original.
 2. **Merge PDF Signatures**: Merging copies pages into a new PDF container, which invalidates cryptographic digital signatures and may omit interactive document-level scripts.
 3. **Passport Photo Background Fill**: Automatic AI background removal is not included. The background color picker only fills transparent regions (e.g., pre-cut transparent PNGs).
-4. **Contact Email Configuration**: `NEXT_PUBLIC_CONTACT_EMAIL` / `VITE_CONTACT_EMAIL` is intentionally left unset in `.env.example` so no fake address is invented. While unset, `/contact/` displays a clear configuration notice.
+4. **Contact Email Configuration**: Configured to `admin@playbeatdigital.store` in `.env`, `.env.example`, and `siteConfig`. `/contact/` displays the active verified mailbox with copy and mailto actions.
 5. **Build-Time Environment Variables**: Public variables (`NEXT_PUBLIC_*` / `VITE_*`) are embedded at build time. Modifying them in Vercel Project Settings requires triggering a new deployment build.
 
 ---

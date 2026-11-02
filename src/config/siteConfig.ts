@@ -38,7 +38,7 @@ export const siteConfig: SiteConfig = {
   brandPromise: 'Everyday tools. Simple, fast and free.',
   privacyNotice: 'Your files are processed in your browser and never uploaded.',
   siteUrl: normalizedSiteUrl,
-  contactEmail: getEnvVar('VITE_CONTACT_EMAIL', 'NEXT_PUBLIC_CONTACT_EMAIL', ''),
+  contactEmail: getEnvVar('VITE_CONTACT_EMAIL', 'NEXT_PUBLIC_CONTACT_EMAIL', 'admin@playbeatdigital.store'),
   gaId: getEnvVar('VITE_GA_ID', 'NEXT_PUBLIC_GA_ID', ''),
   gscVerification: getEnvVar('VITE_GSC_VERIFICATION', 'NEXT_PUBLIC_GSC_VERIFICATION', ''),
   adsEnabled: getEnvVar('VITE_ADS_ENABLED', 'NEXT_PUBLIC_ADS_ENABLED', 'false').toLowerCase() === 'true',

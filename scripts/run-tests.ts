@@ -255,7 +255,7 @@ async function runAllTests() {
     const docContent = fs.readFileSync(docPath, 'utf-8');
     assert.ok(docContent.includes('Day 1'));
     assert.ok(docContent.includes('Day 30'));
-    assert.ok(docContent.includes('FLAGGED: Not Supplied Yet'));
+    assert.ok(docContent.includes('admin@playbeatdigital.store'));
     passedAssertions += 5;
 
     console.log('✓ [Suite 6] Tool Registry (10 tools), vercel.json security headers, and docs integrity passed (43 assertions)');

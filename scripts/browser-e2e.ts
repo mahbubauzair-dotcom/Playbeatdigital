@@ -159,15 +159,17 @@ async function runBrowserE2E() {
     const launchResp = await page.goto(`${baseUrl}/launch-report/`, { waitUntil: 'networkidle' });
     assert.equal(launchResp?.status(), 404, '/launch-report/ must return 404');
 
-    // Verify /contact/ shows the unset configuration flag honestly
+    // Verify /contact/ shows the configured contact email and interactive mail actions
     await page.goto(`${baseUrl}/contact/`, { waitUntil: 'networkidle' });
     const contactText = await page.locator('main').innerText();
     assert.ok(
-      contactText.includes('Configuration Notice: Contact Email Not Yet Configured'),
-      '/contact/ must show honest configuration notice when email is unset'
+      contactText.includes('admin@playbeatdigital.store'),
+      '/contact/ must display the configured contact email address'
     );
+    const mailtoCount = await page.locator('a[href^="mailto:admin@playbeatdigital.store"]').count();
+    assert.ok(mailtoCount >= 1, '/contact/ must have an active mailto link');
 
-    console.log('✓ [Browser Check 1] All 18 exported routes loaded directly with 200 OK, Vercel CSP headers, and 1 H1 each; /launch-report/ removed (404); /contact/ flagged honestly');
+    console.log('✓ [Browser Check 1] All 18 exported routes loaded directly with 200 OK, Vercel CSP headers, and 1 H1 each; /launch-report/ removed (404); /contact/ shows verified email');
 
     // -------------------------------------------------------------------------
     // 2. Mobile Layouts (360px & 390px), Ad Slot Collapse & Keyboard Navigation

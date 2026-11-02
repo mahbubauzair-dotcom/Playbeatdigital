@@ -11,7 +11,7 @@ Public environment variables (`NEXT_PUBLIC_*` / `VITE_*`) are embedded into the 
 | Variable | Default / Current Value | Status |
 | :--- | :--- | :--- |
 | `NEXT_PUBLIC_SITE_URL` / `VITE_SITE_URL` | `https://playbeatdigital.store` | Configured |
-| `NEXT_PUBLIC_CONTACT_EMAIL` / `VITE_CONTACT_EMAIL` | `""` (empty) | **FLAGGED: Not Supplied Yet** — `/contact/` displays a configuration notice until set |
+| `NEXT_PUBLIC_CONTACT_EMAIL` / `VITE_CONTACT_EMAIL` | `"admin@playbeatdigital.store"` | **Configured** — `/contact/` activates Copy email and mailto controls |
 | `NEXT_PUBLIC_GA_ID` / `VITE_GA_ID` | `""` (empty) | Optional — Analytics consent banner stays hidden while unset |
 | `NEXT_PUBLIC_GSC_VERIFICATION` / `VITE_GSC_VERIFICATION` | `""` (empty) | Optional — Meta tag omitted while unset |
 | `NEXT_PUBLIC_ADS_ENABLED` / `VITE_ADS_ENABLED` | `"false"` | Disabled by default — Ad slots collapse completely |
@@ -20,7 +20,7 @@ Public environment variables (`NEXT_PUBLIC_*` / `VITE_*`) are embedded into the 
 
 ## 2. Post-Launch Checklist (`playbeatdigital.store` on GitHub + Vercel)
 
-- [ ] **Confirm Contact Details**: Set `NEXT_PUBLIC_CONTACT_EMAIL` (and `VITE_CONTACT_EMAIL`) to your verified mailbox in **Vercel Dashboard → Project Settings → Environment Variables**, then redeploy so `/contact/` activates the *Copy email* and *Open email app* controls.
+- [x] **Confirm Contact Details**: Configured `admin@playbeatdigital.store` across `.env`, `.env.example`, and siteConfig. `/contact/` displays the active verified email, *Copy email* button, and *Open email app* mailto link.
 - [ ] **HTTPS & Canonical Host**: Verify in **Vercel Dashboard → Settings → Domains** that `playbeatdigital.store` is the primary domain over HTTPS, `www.playbeatdigital.store` redirects (308/301) to `https://playbeatdigital.store`, and `trailingSlash: true` in `vercel.json` is active.
 - [ ] **Google Search Console Verification**: Verify domain ownership via DNS TXT record (recommended) or by setting `NEXT_PUBLIC_GSC_VERIFICATION` in Vercel and redeploying.
 - [ ] **Sitemap Submission**: Submit `https://playbeatdigital.store/sitemap.xml` in Google Search Console and confirm `https://playbeatdigital.store/robots.txt` is reachable.
