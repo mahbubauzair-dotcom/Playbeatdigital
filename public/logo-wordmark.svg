@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 48" fill="none">
+  <rect x="2" y="4" width="40" height="40" rx="10" fill="#4F46E5"/>
+  <path d="M14 14H25C28.866 14 32 17.134 32 21C32 24.866 28.866 28 25 28H19V34H14V14ZM19 18.5V23.5H24.5C26.1569 23.5 27.5 22.3807 27.5 21C27.5 19.6193 26.1569 18.5 24.5 18.5H19Z" fill="white"/>
+  <circle cx="30" cy="32" r="4" fill="#A5B4FC"/>
+  <text x="52" y="31" font-family="Plus Jakarta Sans, system-ui, sans-serif" font-weight="700" font-size="22" fill="#0F172A">PlayBeat Tools</text>
+</svg>

@@ -1,0 +1,6 @@
+{
+  "name": "PlayBeat Tools",
+  "description": "Free browser-based online utilities to compress photos, resize images, prepare passport-size prints, merge and compress PDFs, calculate age, count words, generate QR codes, and type Urdu.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
