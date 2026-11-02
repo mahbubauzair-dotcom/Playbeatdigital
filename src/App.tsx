@@ -64,6 +64,9 @@ const UrduKeyboardTool = lazy(() =>
     default: m.UrduKeyboardTool,
   }))
 );
+const AdminPage = lazy(() =>
+  import('./admin/AdminPage').then((m) => ({ default: m.AdminPage }))
+);
 
 export function normalizePathname(rawPath: string): string {
   const withoutHashOrQuery = rawPath.split('#')[0].split('?')[0] || '/';
@@ -207,8 +210,32 @@ export default function App({ initialPath }: AppProps) {
       return <DisclaimerPage onNavigate={handleNavigate} />;
     }
 
+    if (currentPath === '/admin/' || currentPath.startsWith('/admin/')) {
+      return (
+        <Suspense
+          fallback={
+            <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center text-xs text-slate-500">
+              Loading Admin Portal...
+            </div>
+          }
+        >
+          <AdminPage />
+        </Suspense>
+      );
+    }
+
     return <NotFoundPage onNavigate={handleNavigate} />;
   };
+
+  const isAdminRoute = currentPath === '/admin/' || currentPath.startsWith('/admin/');
+
+  if (isAdminRoute) {
+    return (
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+        {renderRoute()}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
