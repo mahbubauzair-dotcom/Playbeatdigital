@@ -94,6 +94,13 @@ function buildRoutesList(): RouteMeta[] {
       description:
         'Important disclaimers regarding government portal affiliation, file compression trade-offs, passport photo rules, and age calculation conventions.',
       includeInSitemap: true,
+    },
+    {
+      routePath: '/admin/',
+      title: 'Admin Portal – PlayBeat Tools',
+      description:
+        'Administrative portal for PlayBeat Tools settings, tool content, SEO metadata, and publishing pipeline.',
+      includeInSitemap: false,
     }
   );
 
@@ -136,6 +143,13 @@ function injectRouteHtml(templateHtml: string, route: RouteMeta, appHtml: string
     /<meta name="twitter:description" content=".*?"\s*\/?>/,
     `<meta name="twitter:description" content="${safeDesc}" />`
   );
+
+  if (!route.includeInSitemap) {
+    html = html.replace(
+      '</head>',
+      '    <meta name="robots" content="noindex, nofollow" />\n  </head>'
+    );
+  }
 
   html = html.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`);
   return html;

@@ -261,7 +261,100 @@ async function runAllTests() {
     console.log('✓ [Suite 6] Tool Registry (10 tools), vercel.json security headers, and docs integrity passed (43 assertions)');
   }
 
-  console.log(`\nAll 6 suites (${passedAssertions} total assertions) in PlayBeat Tools unit verification passed!`);
+  // 7. Admin Dashboard: Settings Store, Overrides, Contrast Math & SEO Audit Engine Tests
+  {
+    const {
+      AUTOMATIC_DEFAULTS,
+      computeEffective,
+      getContrastRatio,
+      validateSetting,
+    } = await import('../src/lib/settingsStore');
+
+    // Default vs Overrides resolution
+    assert.equal(AUTOMATIC_DEFAULTS.siteName, 'PlayBeat Tools');
+    assert.equal(AUTOMATIC_DEFAULTS.contactEmail, 'admin@playbeatdigital.store');
+    passedAssertions += 2;
+
+    // Empty override falls back to automatic default
+    const emptyOverrides = { siteName: '', contactEmail: '' };
+    const eff1 = computeEffective(emptyOverrides);
+    assert.equal(eff1.siteName, 'PlayBeat Tools');
+    assert.equal(eff1.contactEmail, 'admin@playbeatdigital.store');
+    passedAssertions += 2;
+
+    // Explicit manual override takes effect
+    const manualOverrides = { siteName: 'PlayBeat Pro Utilities', contactEmail: 'support@playbeatdigital.store' };
+    const eff2 = computeEffective(manualOverrides);
+    assert.equal(eff2.siteName, 'PlayBeat Pro Utilities');
+    assert.equal(eff2.contactEmail, 'support@playbeatdigital.store');
+    passedAssertions += 2;
+
+    // Explicit boolean override: "false" is preserved, not confused with unset
+    const boolOverrides = { advertisingEnabled: false };
+    const eff3 = computeEffective(boolOverrides);
+    assert.equal(eff3.advertisingEnabled, false);
+    passedAssertions += 1;
+
+    // Contrast ratio math: #4F46E5 on white
+    const indigoContrast = getContrastRatio('#4F46E5', '#ffffff');
+    assert.ok(indigoContrast >= 4.5, `Contrast ratio ${indigoContrast} must satisfy WCAG AA ≥ 4.5:1`);
+    passedAssertions += 1;
+
+    // Email validation
+    assert.equal(validateSetting('contactEmail', 'admin@playbeatdigital.store'), null);
+    assert.ok(validateSetting('contactEmail', 'invalid-email') !== null);
+    passedAssertions += 2;
+
+    // Technical SEO Audit Engine Tests
+    const { runSeoAudit } = await import('../src/lib/seoAuditEngine');
+    const sampleHtml = `<!doctype html>
+<html lang="en">
+  <head>
+    <title>PlayBeat Tools – Free Online PDF, Photo & Form Utilities</title>
+    <meta name="description" content="Free browser-based tools to compress photos to 50KB, resize passport pictures, merge and reduce PDFs, calculate age, count words, make QR codes and type Urdu." />
+    <link rel="canonical" href="https://playbeatdigital.store/" />
+    <meta property="og:title" content="PlayBeat Tools" />
+    <meta property="og:image" content="https://playbeatdigital.store/og-card.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"PlayBeat Tools"}</script>
+  </head>
+  <body>
+    <h1>PlayBeat Tools</h1>
+    <a href="/compress-image/">Compress Image</a>
+    <a href="/merge-pdf/">Merge PDF</a>
+    <a href="/compress-pdf/">Compress PDF</a>
+    <a href="/jpg-to-pdf/">JPG to PDF</a>
+    <a href="/passport-photo-maker/">Passport Photo</a>
+    <img src="/logo.png" alt="PlayBeat Tools" />
+  </body>
+</html>`;
+
+    const audit = runSeoAudit(sampleHtml, 'https://playbeatdigital.store/', 'Production (Live)');
+    assert.ok(audit.overallScore >= 90, `Audit score ${audit.overallScore} should be ≥ 90 for valid HTML`);
+    assert.equal(audit.auditCoveragePercent, 100);
+    assert.ok(audit.formulaDescription.includes('PlayBeat Tools technical SEO audit score — not a Google ranking score.'));
+    assert.equal(audit.findings.length, 13);
+    for (const f of audit.findings) {
+      assert.ok(['pass', 'warning', 'error', 'not_checked'].includes(f.status));
+      assert.ok(f.reason.length > 0);
+      assert.ok(f.recommendedFix.length > 0);
+      assert.ok(f.editorLink.startsWith('/admin/'));
+    }
+    passedAssertions += 18;
+
+    // Verify database migration file exists
+    const migrationFile = path.resolve(process.cwd(), 'supabase/migrations/20261102000000_create_admin_and_settings.sql');
+    assert.equal(fs.existsSync(migrationFile), true, 'Supabase migration SQL must exist');
+    const sqlContent = fs.readFileSync(migrationFile, 'utf-8');
+    assert.ok(sqlContent.includes('CREATE TABLE IF NOT EXISTS public.admin_users'));
+    assert.ok(sqlContent.includes('CREATE POLICY'));
+    assert.ok(sqlContent.includes('is_admin()'));
+    passedAssertions += 4;
+
+    console.log('✓ [Suite 7] Admin settings overrides, WCAG contrast math, SEO audit engine (13 checks), and database RLS migrations passed (32 assertions)');
+  }
+
+  console.log(`\nAll 7 suites (${passedAssertions} total assertions) in PlayBeat Tools verification passed!`);
 }
 
 runAllTests().catch((err) => {

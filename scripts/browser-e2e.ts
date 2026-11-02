@@ -570,7 +570,50 @@ async function runBrowserE2E() {
     console.log('✓ [Tool 10: Urdu Keyboard] Verified phonetic typing, on-screen keys, mapping toggle, cursor preservation, and UTF-8 .txt download');
 
     // -------------------------------------------------------------------------
-    // 14. Verify Zero Network Leakage, Zero CSP Violations & Zero Page Errors
+    // 14. Admin Portal: Security Gate, Noindex Meta & Responsive Mobile Layout (360px & 390px)
+    // -------------------------------------------------------------------------
+    await page.setViewportSize({ width: 360, height: 740 });
+    await page.goto(`${baseUrl}/admin/`, { waitUntil: 'networkidle' });
+
+    // Verify title and noindex robots meta
+    const adminTitle = await page.title();
+    assert.ok(adminTitle.includes('Admin'), 'Admin page title must identify admin portal');
+
+    const robotsContent = await page.locator('meta[name="robots"]').getAttribute('content');
+    assert.ok(
+      robotsContent?.includes('noindex'),
+      '/admin/ must possess noindex meta directive to prevent search engine indexing'
+    );
+
+    // Verify Auth Gate is active and has Email/Password fields
+    const emailInput = page.locator('#admin-email');
+    const passwordInput = page.locator('#admin-password');
+    assert.equal(await emailInput.count(), 1, 'Admin email input must be present');
+    assert.equal(await passwordInput.count(), 1, 'Admin password input must be present');
+
+    // Test mobile layout at 360px
+    const bodyScrollWidth360 = await page.evaluate(() => document.body.scrollWidth);
+    assert.equal(
+      bodyScrollWidth360 <= 360,
+      true,
+      `Body width ${bodyScrollWidth360}px must not exceed 360px mobile viewport`
+    );
+
+    // Test mobile layout at 390px (iPhone 12/13/14)
+    await page.setViewportSize({ width: 390, height: 844 });
+    const bodyScrollWidth390 = await page.evaluate(() => document.body.scrollWidth);
+    assert.equal(
+      bodyScrollWidth390 <= 390,
+      true,
+      `Body width ${bodyScrollWidth390}px must not exceed 390px mobile viewport`
+    );
+
+    console.log(
+      '✓ [Admin Portal] Verified security auth gate, noindex directive, and responsive layout at 360px & 390px'
+    );
+
+    // -------------------------------------------------------------------------
+    // 15. Verify Zero Network Leakage, Zero CSP Violations & Zero Page Errors
     // -------------------------------------------------------------------------
     assert.equal(cspViolations.length, 0, `CSP violations detected: ${cspViolations.join(', ')}`);
     assert.equal(pageErrors.length, 0, `Page errors detected: ${pageErrors.join(', ')}`);
@@ -597,7 +640,7 @@ async function runBrowserE2E() {
     console.log(
       `✓ [Network & Security Audit] Inspected ${allRequestUrls.length} browser requests: 0 external requests, 0 sensitive payload leaks, 0 CSP violations, 0 page errors`
     );
-    console.log('\nAll 14 end-to-end headless Chromium browser verification checks passed!');
+    console.log('\nAll 15 end-to-end headless Chromium browser verification checks passed!');
   } finally {
     await browser.close();
     server.close();
