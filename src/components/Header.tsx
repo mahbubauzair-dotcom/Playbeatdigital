@@ -38,12 +38,25 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
         <a
           href="/"
           onClick={(e) => handleLinkClick('/', e)}
-          className="inline-flex items-center gap-2 text-sm sm:text-base font-bold tracking-tight text-slate-900 dark:text-slate-100 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 rounded-md"
+          className="inline-flex items-center gap-2 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 rounded-md py-1 group"
+          aria-label="PlayBeat Tools Home"
         >
-          <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-indigo-600 text-white inline-flex items-center justify-center font-bold text-xs sm:text-sm">
-            P
-          </span>
-          <span>PlayBeat Tools</span>
+          {/* Light Mode Logo */}
+          <img
+            src="/logo.png"
+            alt="PlayBeat Tools"
+            className="h-7 sm:h-8 w-auto object-contain dark:hidden transition-transform duration-200 group-hover:scale-[1.02]"
+            width="144"
+            height="32"
+          />
+          {/* Dark Mode Logo (crisp white typography with vibrant indigo accents) */}
+          <img
+            src="/logo-dark.png"
+            alt="PlayBeat Tools"
+            className="h-7 sm:h-8 w-auto object-contain hidden dark:block transition-transform duration-200 group-hover:scale-[1.02]"
+            width="144"
+            height="32"
+          />
         </a>
 
         {/* Zone 2: Concise navigation links */}

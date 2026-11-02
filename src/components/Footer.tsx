@@ -21,12 +21,23 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenConsentModal }
             <a
               href="/"
               onClick={(e) => onNavigate('/', e)}
-              className="inline-flex items-center gap-2 text-base font-bold text-slate-900 dark:text-slate-100"
+              className="inline-flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 rounded-md py-0.5 group"
+              aria-label="PlayBeat Tools Home"
             >
-              <span className="w-6 h-6 rounded-md bg-indigo-600 text-white inline-flex items-center justify-center font-bold text-xs">
-                P
-              </span>
-              <span>{siteConfig.siteName}</span>
+              <img
+                src="/logo.png"
+                alt="PlayBeat Tools"
+                className="h-8 w-auto object-contain dark:hidden transition-transform duration-200 group-hover:scale-[1.02]"
+                width="144"
+                height="32"
+              />
+              <img
+                src="/logo-dark.png"
+                alt="PlayBeat Tools"
+                className="h-8 w-auto object-contain hidden dark:block transition-transform duration-200 group-hover:scale-[1.02]"
+                width="144"
+                height="32"
+              />
             </a>
             <p className="mt-2 text-sm font-medium text-slate-700 dark:text-slate-300">
               {siteConfig.brandPromise}

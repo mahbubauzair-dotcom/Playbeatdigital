@@ -70,7 +70,7 @@ export const SeoSchema: React.FC<SeoSchemaProps> = ({
       '@type': 'Organization',
       name: siteConfig.siteName,
       url: `${siteConfig.siteUrl}/`,
-      logo: `${siteConfig.siteUrl}/favicon.svg`,
+      logo: `${siteConfig.siteUrl}/logo.png`,
       description: siteConfig.brandPromise,
     });
     schemas.push({
@@ -143,7 +143,7 @@ export const SeoSchema: React.FC<SeoSchemaProps> = ({
         name: siteConfig.siteName,
         logo: {
           '@type': 'ImageObject',
-          url: `${siteConfig.siteUrl}/favicon.svg`,
+          url: `${siteConfig.siteUrl}/logo.png`,
         },
       },
     });
