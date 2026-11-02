@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight, CheckCircle2, Search, ShieldCheck, Sparkles, Zap } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { AdSlot } from '../components/AdSlot';
 import { FAQ } from '../components/FAQ';
 import { SeoSchema } from '../components/SeoSchema';
@@ -103,7 +104,19 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </div>
 
       {/* 1. Modern 3D Animated Hero Section */}
-      <section className="relative rounded-3xl bg-gradient-to-b from-white/95 via-white/80 to-slate-50/90 dark:from-slate-900/95 dark:via-slate-900/80 dark:to-slate-950/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 p-6 sm:p-8 md:p-10 shadow-2xl shadow-indigo-500/5 dark:shadow-indigo-950/20 overflow-hidden">
+      <motion.section
+        initial={{ opacity: 0, scale: 0.94, rotateX: 12 }}
+        animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+        transition={{
+          duration: 0.75,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+        style={{
+          transformPerspective: 1200,
+          transformStyle: 'preserve-3d',
+        }}
+        className="relative rounded-3xl bg-gradient-to-b from-white/95 via-white/80 to-slate-50/90 dark:from-slate-900/95 dark:via-slate-900/80 dark:to-slate-950/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 p-6 sm:p-8 md:p-10 shadow-2xl shadow-indigo-500/5 dark:shadow-indigo-950/20 overflow-hidden"
+      >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Column: Headline, Brand Promise & CTAs */}
           <div className="lg:col-span-6 space-y-4">
@@ -166,7 +179,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             <ThreeHeroScene onSelectCategory={handle3DSelectCategory} />
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Top Ad Slot (collapsed by default) */}
       <AdSlot id="ad-slot-top" />
@@ -274,8 +287,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filteredTools.map((tool) => (
-              <ToolCard key={tool.slug} tool={tool} onNavigate={onNavigate} />
+            {filteredTools.map((tool, idx) => (
+              <ToolCard key={tool.slug} tool={tool} index={idx} onNavigate={onNavigate} />
             ))}
           </div>
         )}
